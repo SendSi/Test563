@@ -16,6 +16,12 @@ public class MethodEditor : EditorWindow
     private string mClassName;
     private string mMethodName;
     private string mParmas;
+    private ParameterInfo[] mParamsInfo;
+
+    void ShowLabel(string str)
+    {
+        this.ShowNotification(new GUIContent(str));
+    }
 
     void TestOne()
     {
@@ -36,11 +42,17 @@ public class MethodEditor : EditorWindow
                     var tType = tAsb.GetType(mClassName);
                     var tMethod = tType.GetMethod(mMethodName);
                     var tObj = Activator.CreateInstance(tType);
-                    var par = tMethod.GetParameters();
-                    foreach (var item in par)
+                    mParamsInfo = tMethod.GetParameters();
+                    if (mParamsInfo.Length == 0)
                     {
-                        Debug.Log(item);
+                        tMethod.Invoke(tObj, null);
+                        ShowLabel("无参数,已调用方法");
                     }
+
+                    //foreach (var item in tPars)
+                    //{
+                    //    Debug.Log(item);
+                    //}
                     //if (string.IsNullOrEmpty(mParmas))
                     //    tMethod.Invoke(tObj, null);
                     //else
@@ -60,7 +72,7 @@ public class MethodEditor : EditorWindow
                     //        }
                     //    }
                     //    tMethod.Invoke(tObj, tPars);
-                    //    tMethod.Invoke(tObj, new object[] {int.Parse(mParmas),"string类型"});
+                    //    tMethod.Invoke(tObj, new object[] { int.Parse(mParmas), "string类型" });
                     //}
                 }
                 catch (Exception e)
@@ -68,6 +80,15 @@ public class MethodEditor : EditorWindow
                     Debug.LogError("异常了--查看类名.方法.参数");
                 }
             }
+
+            if (mParamsInfo != null && mParamsInfo.Length > 0)
+            {
+                if (GUILayout.Button("有参数,得调用参数", GUILayout.Height(27)))
+                {
+
+                }
+            }
+
         }
     }
     void OnGUI()
