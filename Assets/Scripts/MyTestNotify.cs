@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -9,24 +9,36 @@ public class MyTestNotify
 {
     public MyTestNotify()
     {
-        Debug.Log("不支持私有的,此程序集=" + Assembly.GetExecutingAssembly().FullName);
+        if (PlayerPrefs.HasKey(GetType().Name)==false)
+            Debug.Log("此程序集=" + Assembly.GetExecutingAssembly().FullName);
+        PlayerPrefs.SetString(GetType().Name,GetType().Name);
     }
     public void GetPerson()
     {
         Debug.Log("此程序集=" + Assembly.GetExecutingAssembly().FullName + ",类名=MyTestNotify");
     }
-
-    public void SetPersonName(string str)
+    private void GetPersonPrivate()
     {
-        Debug.Log("传入的str=" + str);
+        Debug.Log("私有的");
     }
-    public void SetPersonNameAndAge(int num,string str)
-    {
-        Debug.Log("传入的num=" + num+",str="+str);
-    }
-    public void SendTestNotify(TestDto dto)
-    {
 
+    public void SetPersonName(string strstrstrstrstrstrstrstrstrstr)
+    {
+        Debug.Log("传入的str=" + strstrstrstrstrstrstrstrstrstr);
+    }
+    public void SetPersonNameAndAge(int num, string str, TestDto dto, TestDto dto2)
+    {
+        Debug.Log("传入的num=" + num + ",strstrstrstrstrstrstrstrstrstr=" + str + ",dto.mid=" + dto.mId + ",mName=" + dto.mName);
+    }
+
+    public void SetPerson(int age, bool isMan, string name)
+    {
+        Debug.Log(name + "," + age + (isMan ? "岁,男" : "岁,女"));
+    }
+
+    public void SendTestNotify(TestDto dto, TestDto dto2)
+    {
+        Debug.Log(dto.mId + "," + dto2.mName);//+","+dto.mName);
     }
 }
 public class TestDto
@@ -40,8 +52,4 @@ public class TestDto
     //全局否
     public bool mGlobal;
 }
-
-
-
-
 
